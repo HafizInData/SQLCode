@@ -1,0 +1,55 @@
+CREATE TABLE SOCMED_DATA (
+what_is_your_age_group text,
+what_is_your_occupation text,
+where_do_you_live text,
+how_many_hours_perday_do_you_spend_on_social_media text,
+how_has_social_media_affected_your_real_life_relationships text,
+how_frequently_do_you_use_email_for_communication text,
+do_you_use_linkedin_for_professional_networking text,
+how_often_do_you_use_whatsapp_for_communication text,
+which_social_media_platforms_do_you_use_the_most text,
+do_you_feel_that_social_media_affects_your_mental_health text
+);
+
+SELECT * FROM SOCMED_DATA
+
+-- Sosial media yang paling banyak digunakan berdasarkan okupasi
+SELECT  what_is_your_occupation, 
+		which_social_media_platforms_do_you_use_the_most,
+		COUNT(which_social_media_platforms_do_you_use_the_most) AS total_user
+FROM SOCMED_DATA
+GROUP BY what_is_your_occupation, which_social_media_platforms_do_you_use_the_most
+ORDER BY total_user DESC;
+
+-- kecenderungan menggunakan linkedin untuk networking berdasarkan okupasi
+SELECT  what_is_your_occupation,
+		do_you_use_linkedin_for_professional_networking,
+		COUNT(do_you_use_linkedin_for_professional_networking) AS total_person
+FROM SOCMED_DATA
+GROUP BY what_is_your_occupation, do_you_use_linkedin_for_professional_networking
+ORDER BY do_you_use_linkedin_for_professional_networking DESC;
+
+-- Waktu yang dihabiskan di sosmed berdasarkan jenis platfrom yang digunakan & pengaruhnya ke hubungan sosial
+SELECT  how_many_hours_perday_do_you_spend_on_social_media,
+		how_has_social_media_affected_your_real_life_relationships,
+		which_social_media_platforms_do_you_use_the_most,
+		COUNT(how_has_social_media_affected_your_real_life_relationships) AS total_person
+FROM SOCMED_DATA
+GROUP BY how_many_hours_perday_do_you_spend_on_social_media, how_has_social_media_affected_your_real_life_relationships, which_social_media_platforms_do_you_use_the_most
+ORDER BY total_person DESC;
+
+-- Waktu yang dihabiskan di sosmed berdasarkan jenis platfrom yang digunakan & pengaruhnya ke kesehatan mental
+SELECT  how_many_hours_perday_do_you_spend_on_social_media,
+		do_you_feel_that_social_media_affects_your_mental_health,
+		which_social_media_platforms_do_you_use_the_most
+FROM SOCMED_DATA
+GROUP BY how_many_hours_perday_do_you_spend_on_social_media, do_you_feel_that_social_media_affects_your_mental_health, which_social_media_platforms_do_you_use_the_most;
+
+-- Perbandingan frekuensi penggunaan email dan whatsapp sebagai alat komunikasi
+SELECT how_frequently_do_you_use_email_for_communication,
+	   COUNT(how_frequently_do_you_use_email_for_communication) AS count_of_email_user,
+	   how_often_do_you_use_whatsapp_for_communication,
+	   COUNT(how_often_do_you_use_whatsapp_for_communication) AS count_of_whatsapp_user
+FROM SOCMED_DATA
+GROUP BY how_frequently_do_you_use_email_for_communication, how_often_do_you_use_whatsapp_for_communication
+ORDER BY count_of_email_user DESC;
